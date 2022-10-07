@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {Scoreboard} from "./components/Scoreboard/Scoreboard";
+import {Button} from "./components/Button/Button";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const START_VALUE = 0;
+    const MAX_VALUE = 5;
+    const STEP = 1;
+
+    const [value, setValue] = useState<number>(START_VALUE);
+
+    const increaseCounter = () => {
+        value < MAX_VALUE && setValue(value + STEP);
+    };
+
+    const resetCounter = () => {
+        setValue(START_VALUE);
+    };
+
+    const disabledIncButton = value >= MAX_VALUE;
+    const disabledResetButton = value === START_VALUE;
+
+    return (
+        <div className={'App'}>
+            <div className={'counter_wrapper'}>
+                <Scoreboard clicks={value}/>
+
+                <div className={'buttons_wrapper'}>
+                    <Button
+                        title={'inc'}
+                        onClick={increaseCounter}
+                        isDisabledButton={disabledIncButton}
+                    />
+                    <Button
+                        title={'reset'}
+                        onClick={resetCounter}
+                        isDisabledButton={disabledResetButton}
+                    />
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
