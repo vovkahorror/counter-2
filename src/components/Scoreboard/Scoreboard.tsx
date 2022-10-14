@@ -2,16 +2,21 @@ import React from 'react';
 import style from './Scoreboard.module.css'
 
 type ScoreboardPropsType = {
-    clicks: number;
+    value: number;
+    maxValue: number;
+    error: boolean;
+    message: string;
 }
 
 
 export const Scoreboard = (props: ScoreboardPropsType) => {
-    const scoreboardClassname = (props.clicks < 5) ? style.default : `${style.default} ${style.limit}`;
+    const valueClassname = (props.value < props.maxValue) ? style.defaultValue : `${style.defaultValue} ${style.limitValue}`;
+    const messageClassname = props.error ? `${style.message} ${style.error}` : style.message;
 
     return (
-        <div className={scoreboardClassname}>
-            {props.clicks}
+        <div className={style.scoreboard}>
+            {props.message ? <span className={messageClassname}>{props.message}</span> :
+                <span className={valueClassname}>{props.value}</span>}
         </div>
     );
 };

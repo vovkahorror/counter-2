@@ -1,11 +1,25 @@
-.default {
-  padding: 50px 100px;
-  font-size: 100px;
-  color: white;
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 140px;
   background: darkcyan;
   border-radius: 10px;
 }
 
-.limit {
+.defaultValue {
+  font-size: 100px;
+  color: white;
+}
+
+.message {
+  font-size: 26px;
+  color: white;
+}
+
+.limitValue,
+.error {
   color: red;
+  text-decoration: underline;
 }
