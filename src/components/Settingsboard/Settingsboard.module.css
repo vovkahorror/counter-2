@@ -25,6 +25,10 @@
   outline: none;
 }
 
+.inputError {
+  border: 2px solid red;
+}
+
 .text {
   font-size: 26px;
   color: white;

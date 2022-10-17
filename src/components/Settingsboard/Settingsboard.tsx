@@ -2,6 +2,7 @@ import React, {ChangeEvent} from 'react';
 import style from './Settingsboard.module.css';
 
 type SettingsboardPropsType = {
+    error: boolean;
     newStartValue: number;
     newMaxValue: number;
     setNewStartValue: (newValue: number) => void;
@@ -13,12 +14,14 @@ const Settingsboard = (props: SettingsboardPropsType) => {
         handler(+e.currentTarget.value);
     };
 
+    const inputClassname = props.error ? `${style.input} ${style.inputError}` : style.input;
+
     return (
         <div className={style.settingsboard}>
             <div className={style.settingsboard__item}>
                 <span className={style.text}>max value:</span>
                 <input
-                    className={style.input}
+                    className={inputClassname}
                     onChange={onValueChange(props.setNewMaxValue)}
                     value={props.newMaxValue}
                     type="number"
@@ -27,7 +30,7 @@ const Settingsboard = (props: SettingsboardPropsType) => {
             <div className={style.settingsboard__item}>
                 <span className={style.text}>start value:</span>
                 <input
-                    className={style.input}
+                    className={inputClassname}
                     onChange={onValueChange(props.setNewStartValue)}
                     value={props.newStartValue}
                     type="number"

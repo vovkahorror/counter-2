@@ -63,6 +63,7 @@ function App() {
             </div>
             <div className={'counter_wrapper'}>
                 <Settingsboard
+                    error={error}
                     newStartValue={newStartValue}
                     newMaxValue={newMaxValue}
                     setNewStartValue={setNewStartValue}
