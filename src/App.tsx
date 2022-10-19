@@ -10,7 +10,7 @@ function App() {
     const [value, setValue] = useState(startValue);
     const [newStartValue, setNewStartValue] = useState(startValue);
     const [newMaxValue, setNewMaxValue] = useState(maxValue);
-    const [informationMode, setInformationMode] = useState(false)
+    const [informationMode, setInformationMode] = useState(false);
 
     useEffect(() => {
         const startValueAsString = localStorage.getItem('counterStartValue');
@@ -19,6 +19,12 @@ function App() {
         const maxValueAsString = localStorage.getItem('counterMaxValue');
         maxValueAsString && setMaxValue(JSON.parse(maxValueAsString));
 
+        const newStartValueAsString = localStorage.getItem('counterNewStartValue');
+        newStartValueAsString && setNewStartValue(JSON.parse(newStartValueAsString));
+
+        const newMaxValueAsString = localStorage.getItem('counterNewMaxValue');
+        newMaxValueAsString && setNewMaxValue(JSON.parse(newMaxValueAsString));
+
         const currentValueAsString = localStorage.getItem('counterValue');
         currentValueAsString && setValue(JSON.parse(currentValueAsString));
     }, [])
@@ -26,8 +32,10 @@ function App() {
     useEffect(() => {
         localStorage.setItem('counterStartValue', JSON.stringify(startValue));
         localStorage.setItem('counterMaxValue', JSON.stringify(maxValue));
+        localStorage.setItem('counterNewStartValue', JSON.stringify(newStartValue));
+        localStorage.setItem('counterNewMaxValue', JSON.stringify(newMaxValue));
         localStorage.setItem('counterValue', JSON.stringify(value));
-    }, [startValue, maxValue, value]);
+    }, [startValue, maxValue, newStartValue, newMaxValue, value]);
 
     const STEP = 1;
     const error = newStartValue < 0 || newMaxValue <= newStartValue;
