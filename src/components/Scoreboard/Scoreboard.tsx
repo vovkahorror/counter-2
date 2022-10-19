@@ -6,6 +6,7 @@ type ScoreboardPropsType = {
     maxValue: number;
     error: boolean;
     message: string;
+    informationMode: boolean;
 }
 
 
@@ -15,7 +16,7 @@ export const Scoreboard = (props: ScoreboardPropsType) => {
 
     return (
         <div className={style.scoreboard}>
-            {props.message ? <span className={messageClassname}>{props.message}</span> :
+            {props.informationMode ? <span className={messageClassname}>{props.message}</span> :
                 <span className={valueClassname}>{props.value}</span>}
         </div>
     );

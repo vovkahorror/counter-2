@@ -7,11 +7,13 @@ type SettingsboardPropsType = {
     newMaxValue: number;
     setNewStartValue: (newValue: number) => void;
     setNewMaxValue: (newValue: number) => void;
+    setInformationMode: (informationMode: boolean) => void;
 }
 
 const Settingsboard = (props: SettingsboardPropsType) => {
     const onValueChange = (handler: (value: number) => void) => (e: ChangeEvent<HTMLInputElement>) => {
         handler(+e.currentTarget.value);
+        props.setInformationMode(true);
     };
 
     const inputClassname = props.error ? `${style.input} ${style.inputError}` : style.input;

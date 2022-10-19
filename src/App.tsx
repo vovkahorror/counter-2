@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Scoreboard} from "./components/Scoreboard/Scoreboard";
 import {Button} from "./components/Button/Button";
@@ -10,11 +10,28 @@ function App() {
     const [value, setValue] = useState(startValue);
     const [newStartValue, setNewStartValue] = useState(startValue);
     const [newMaxValue, setNewMaxValue] = useState(maxValue);
+    const [informationMode, setInformationMode] = useState(false)
+
+    useEffect(() => {
+        const startValueAsString = localStorage.getItem('counterStartValue');
+        startValueAsString && setStartValue(JSON.parse(startValueAsString));
+
+        const maxValueAsString = localStorage.getItem('counterMaxValue');
+        maxValueAsString && setMaxValue(JSON.parse(maxValueAsString));
+
+        const currentValueAsString = localStorage.getItem('counterValue');
+        currentValueAsString && setValue(JSON.parse(currentValueAsString));
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('counterStartValue', JSON.stringify(startValue));
+        localStorage.setItem('counterMaxValue', JSON.stringify(maxValue));
+        localStorage.setItem('counterValue', JSON.stringify(value));
+    }, [startValue, maxValue, value]);
 
     const STEP = 1;
     const error = newStartValue < 0 || newMaxValue <= newStartValue;
-    const message = error ? 'Incorrect value!' :
-        (newMaxValue !== maxValue || newStartValue !== startValue) ? 'Enter values and press "set"' : '';
+    const message = error ? 'Incorrect value!' : 'Enter values and press "set"';
 
     const increaseCounter = () => {
         value < maxValue && setValue(value + STEP);
@@ -33,6 +50,7 @@ function App() {
     const changeScoreboard = () => {
         value < newStartValue && setValue(newStartValue);
         value > newMaxValue && setValue(newMaxValue);
+        setInformationMode(false);
     };
 
     const disabledIncButton = value === maxValue;
@@ -46,8 +64,8 @@ function App() {
                     maxValue={maxValue}
                     error={error}
                     message={message}
+                    informationMode={informationMode}
                 />
-
                 <div className={'buttons_wrapper'}>
                     <Button
                         title={'inc'}
@@ -61,6 +79,7 @@ function App() {
                     />
                 </div>
             </div>
+
             <div className={'counter_wrapper'}>
                 <Settingsboard
                     error={error}
@@ -68,8 +87,8 @@ function App() {
                     newMaxValue={newMaxValue}
                     setNewStartValue={setNewStartValue}
                     setNewMaxValue={setNewMaxValue}
+                    setInformationMode={setInformationMode}
                 />
-
                 <div className={'buttons_wrapper'}>
                     <Button
                         title={'set'}
