@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Scoreboard} from "./components/Scoreboard/Scoreboard";
 import {Button} from "./components/Button/Button";
-import Settingsboard from "./components/Settingsboard/Settingsboard";
+import SettingsScreen from "./components/Settingsboard/SettingsScreen";
 
 function App() {
     const [startValue, setStartValue] = useState(0);
@@ -89,7 +89,7 @@ function App() {
             </div>
 
             <div className={'counter_wrapper'}>
-                <Settingsboard
+                <SettingsScreen
                     error={error}
                     newStartValue={newStartValue}
                     newMaxValue={newMaxValue}

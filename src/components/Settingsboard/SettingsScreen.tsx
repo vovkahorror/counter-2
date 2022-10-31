@@ -10,7 +10,7 @@ type SettingsboardPropsType = {
     setInformationMode: (informationMode: boolean) => void;
 }
 
-const Settingsboard = (props: SettingsboardPropsType) => {
+const SettingsScreen = (props: SettingsboardPropsType) => {
     const onValueChange = (handler: (value: number) => void) => (e: ChangeEvent<HTMLInputElement>) => {
         handler(+e.currentTarget.value);
         props.setInformationMode(true);
@@ -42,4 +42,4 @@ const Settingsboard = (props: SettingsboardPropsType) => {
     );
 };
 
-export default Settingsboard;
+export default SettingsScreen;
