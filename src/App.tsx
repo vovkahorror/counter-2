@@ -10,7 +10,7 @@ function App() {
     const [value, setValue] = useState(startValue);
     const [newStartValue, setNewStartValue] = useState(startValue);
     const [newMaxValue, setNewMaxValue] = useState(maxValue);
-    const [informationMode, setInformationMode] = useState(false);
+    const [settingsMode, setSettingsMode] = useState(false);
 
     useEffect(() => {
         const startValueAsString = localStorage.getItem('counterStartValue');
@@ -27,7 +27,7 @@ function App() {
 
         const currentValueAsString = localStorage.getItem('counterValue');
         currentValueAsString && setValue(JSON.parse(currentValueAsString));
-    }, [])
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('counterStartValue', JSON.stringify(startValue));
@@ -39,7 +39,6 @@ function App() {
 
     const STEP = 1;
     const error = newStartValue < 0 || newMaxValue <= newStartValue;
-    const message = error ? 'Incorrect value!' : 'Enter values and press "set"';
 
     const increaseCounter = () => {
         value < maxValue && setValue(value + STEP);
@@ -50,15 +49,19 @@ function App() {
     };
 
     const setCounter = () => {
-        setStartValue(newStartValue);
-        setMaxValue(newMaxValue);
-        changeScoreboard();
+        if (!settingsMode) {
+            setSettingsMode(true);
+        } else {
+            setStartValue(newStartValue);
+            setMaxValue(newMaxValue);
+            changeScoreboard();
+        }
     };
 
     const changeScoreboard = () => {
         value < newStartValue && setValue(newStartValue);
         value > newMaxValue && setValue(newMaxValue);
-        setInformationMode(false);
+        setSettingsMode(false);
     };
 
     const disabledIncButton = value === maxValue;
@@ -67,41 +70,38 @@ function App() {
     return (
         <div className={'App'}>
             <div className={'counter_wrapper'}>
-                <Scoreboard
-                    value={value}
-                    maxValue={maxValue}
-                    error={error}
-                    message={message}
-                    informationMode={informationMode}
-                />
-                <div className={'buttons_wrapper'}>
-                    <Button
-                        title={'inc'}
-                        onClick={increaseCounter}
-                        isDisabledButton={disabledIncButton}
+                {settingsMode
+                    ? <SettingsScreen
+                        error={error}
+                        newStartValue={newStartValue}
+                        newMaxValue={newMaxValue}
+                        setNewStartValue={setNewStartValue}
+                        setNewMaxValue={setNewMaxValue}
                     />
-                    <Button
-                        title={'reset'}
-                        onClick={resetCounter}
-                        isDisabledButton={disabledResetButton}
+                    : <Scoreboard
+                        value={value}
+                        maxValue={maxValue}
                     />
-                </div>
-            </div>
+                }
 
-            <div className={'counter_wrapper'}>
-                <SettingsScreen
-                    error={error}
-                    newStartValue={newStartValue}
-                    newMaxValue={newMaxValue}
-                    setNewStartValue={setNewStartValue}
-                    setNewMaxValue={setNewMaxValue}
-                    setInformationMode={setInformationMode}
-                />
                 <div className={'buttons_wrapper'}>
+                    {!settingsMode &&
+                        <>
+                            <Button
+                                title={'inc'}
+                                onClick={increaseCounter}
+                                isDisabledButton={disabledIncButton}
+                            />
+                            <Button
+                                title={'reset'}
+                                onClick={resetCounter}
+                                isDisabledButton={disabledResetButton}
+                            />
+                        </>
+                    }
                     <Button
                         title={'set'}
                         onClick={setCounter}
-                        isDisabledButton={error}
                     />
                 </div>
             </div>

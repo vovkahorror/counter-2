@@ -4,7 +4,7 @@ import style from './Button.module.css'
 type ButtonPropsType = {
     title: string;
     onClick: () => void;
-    isDisabledButton: boolean
+    isDisabledButton?: boolean
 }
 
 export const Button = (props: ButtonPropsType) => {
